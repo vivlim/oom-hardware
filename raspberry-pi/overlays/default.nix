@@ -10,5 +10,6 @@
     ./dtb-cpi-bluetooth.nix
     ./dtb-vc4-kms-v3d.nix
     ./dtb-cpi-spi4.nix
+    ./dtb-rpi4-disable-pwrled.nix
   ];
 }

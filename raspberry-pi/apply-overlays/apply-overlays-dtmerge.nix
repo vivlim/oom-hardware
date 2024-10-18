@@ -3,6 +3,7 @@ paramsPerOverlayMap: {
   stdenvNoCC,
   dtc,
   libraspberrypi,
+  pkgs,
 }:
 with lib; (base: overlays':
     stdenvNoCC.mkDerivation {
@@ -10,21 +11,28 @@ with lib; (base: overlays':
       nativeBuildInputs = [dtc libraspberrypi];
       buildCommand = let
         overlays = toList overlays';
+        baseDTBs =
+          map (x: (builtins.unsafeDiscardStringContext (lib.removeSuffix ".dtb" (builtins.baseNameOf x))))
+          (lib.filesystem.listFilesRecursive "${base}");
       in ''
         mkdir -p $out
         cd "${base}"
         find . -type f -name '*.dtb' -print0 \
           | xargs -0 cp -v --no-preserve=mode --target-directory "$out" --parents
 
-        for dtb in $(find "$out" -type f -name '*.dtb'); do
+        echo baseDTBs: ${toString baseDTBs}
 
-          echo -n "Applying params to $(basename "$dtb")... "
-          echo ${concatStringsSep " " (mapAttrsToList (name: value: "${name}=${value}") (paramsPerOverlayMap.bcm2711-rpi-cm4 or {}))}
-
+        ${flip (concatMapStringsSep "\n") baseDTBs (o: ''
+          dtb=$(find "$out" -type f -name '${o}.dtb')
+          echo -n "Applying params to ${o}.dtb... "
+          echo -n ${concatStringsSep " " (mapAttrsToList (name: value: "${name}=${value}") (paramsPerOverlayMap.${o} or {}))} " "
           mv "$dtb"{,.in}
-          dtmerge "$dtb.in" "$dtb" - ${concatStringsSep " " (mapAttrsToList (name: value: "${name}=${value}") (paramsPerOverlayMap.bcm2711-rpi-cm4 or {}))}
+          dtmerge "$dtb.in" "$dtb" - ${concatStringsSep " " (mapAttrsToList (name: value: "${name}=${value}") (paramsPerOverlayMap.${o} or {}))}
           rm "$dtb.in"
+          echo "ok"
+        '')}
 
+        for dtb in $(find "$out" -type f -name '*.dtb'); do
           dtbCompat=$(fdtget -t s "$dtb" / compatible 2>/dev/null || true)
           # skip files without `compatible` string
           test -z "$dtbCompat" && continue
@@ -59,6 +67,6 @@ with lib; (base: overlays':
             rm "$dtb.in" "$dtboWithExt"
           fi
         '')}
-
-        done'';
+        done
+      '';
     })

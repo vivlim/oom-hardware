@@ -1,35 +1,37 @@
 {
   pkgs,
   nixos-hardware,
+  lib,
   ...
 }: let
-  rpi-utils = pkgs.callPackage ./packages/rpi-utils {};
+  inherit (lib) mkDefault;
+  rpi-utils = pkgs.callPackage ../raspberry-pi/packages/rpi-utils {};
 in {
   imports =
     [nixos-hardware.nixosModules.raspberry-pi-4]
     ++ [./kernel]
-    ++ [./overlays]
-    ++ [./packages/overlays]
-    ++ [./audio-patch.nix];
+    ++ [../raspberry-pi/overlays]
+    ++ [../raspberry-pi/apply-overlays]
+    ++ [./audio.nix];
 
   config = {
     environment.systemPackages = [rpi-utils];
 
     hardware.raspberry-pi."4" = {
-      xhci.enable = false;
-      dwc2.enable = true;
-      dwc2.dr_mode = "host";
+      xhci.enable = mkDefault false;
+      dwc2.enable = mkDefault true;
+      dwc2.dr_mode = mkDefault "host";
       overlays = {
-        cpu-revision.enable = true;
-        audremap.enable = true;
-        vc4-kms-v3d.enable = true;
-        disable-pcie.enable = true;
-        disable-genet.enable = true;
-        panel-uc.enable = true;
-        cpi-pmu.enable = true;
-        cpi-i2c1.enable = false;
-        cpi-spi4.enable = false;
-        cpi-bluetooth.enable = true;
+        cpu-revision.enable = mkDefault true;
+        audremap.enable = mkDefault true;
+        vc4-kms-v3d.enable = mkDefault true;
+        disable-pcie.enable = mkDefault true;
+        disable-genet.enable = mkDefault true;
+        panel-uc.enable = mkDefault true;
+        cpi-pmu.enable = mkDefault true;
+        cpi-i2c1.enable = mkDefault false;
+        cpi-spi4.enable = mkDefault false;
+        cpi-bluetooth.enable = mkDefault true;
       };
     };
 
@@ -40,25 +42,25 @@ in {
         {
           name = "bcm2711-rpi-cm4";
           params = {
-            # ant2 = "on";
-            audio = "on";
-            spi = "off";
-            i2c_arm = "on";
+            ant2 = mkDefault "off";
+            audio = mkDefault "on";
+            spi = mkDefault "off";
+            i2c_arm = mkDefault "on";
           };
         }
         {
           name = "cpu-revision";
-          params = {cm4-8 = "on";};
+          params = {cm4-8 = mkDefault "on";};
         }
         {
           name = "audremap";
-          params = {pins_12_13 = "on";};
+          params = {pins_12_13 = mkDefault "on";};
         }
         {
           name = "vc4-kms-v3d";
           params = {
-            cma-384 = "on";
-            nohdmi1 = "on";
+            cma-384 = mkDefault "on";
+            nohdmi1 = mkDefault "on";
           };
         }
       ];

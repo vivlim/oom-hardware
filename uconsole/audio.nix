@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  rpi-utils = pkgs.callPackage ./packages/rpi-utils {};
+  rpi-utils = pkgs.callPackage ../raspberry-pi/packages/rpi-utils {};
   audio-patch = pkgs.writeText "audio_3.5_patch.py" ''
     import os
     import time
