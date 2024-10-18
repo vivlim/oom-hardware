@@ -608,11 +608,11 @@
 +	dcs_write_seq(0xE0,0x00);
 +	dcs_write_seq(0xE6,0x02);
 +	dcs_write_seq(0xE7,0x02);
-+	dcs_write_seq(0x11);// SLPOUT
-+	msleep (120);
-+	dcs_write_seq(0x29);// DSPON
-+	msleep (20);
-+	dcs_write_seq(0x35,0x00);
++	//dcs_write_seq(0x11);// SLPOUT
++	//msleep (120);
++	//dcs_write_seq(0x29);// DSPON
++	//msleep (20);
++	//dcs_write_seq(0x35,0x00);
 +}
 +
 +static int cwu50_disable(struct drm_panel *panel)
