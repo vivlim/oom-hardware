@@ -19,7 +19,7 @@ in {
       hardware.deviceTree.overlays = [
         {
           name = "${cfg.name}";
-          filter = "bcm2711-rpi-cm4.dtb";
+          filter = "bcm2711-rpi-*.dtb";
           dtsFile = ./source/audremap.dts;
         }
       ];
