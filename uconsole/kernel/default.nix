@@ -28,18 +28,22 @@
     });
   patches = [
     ./patches/001-OCP8178-backlight-driver.patch
-    ./patches/002-clockwork-cwu50.patch
+    ./patches/002-drm-panel-add-clockwork-cwu50.patch
     ./patches/003-axp20x-power.patch
     ./patches/004-vc4_dsi-update.patch
     ./patches/005-bcm2835-audio-staging.patch
+    ./patches/006-vc4_dsi-update-20241008.patch
+    ./patches/007-drm-panel-cwu50-expose-dsi-error-status-to-userspace.patch
+    ./patches/008-driver-staging-add-uconsole-simple-amplifier-switch.patch
   ];
 in {
   boot.kernelPackages = pkgs.callPackages kernelPackagesCfg {};
 
-  #  boot.initrd.kernelModules = [
-  #    "ocp8178_bl"
-  #    "panel-cwu50"
-  #  ];
+  boot.initrd.kernelModules = [
+    "ocp8178_bl"
+    "panel_clockwork_cwu50"
+    "vc4"
+  ];
 
   boot.kernelPatches =
     (
@@ -54,9 +58,9 @@ in {
         name = "uconsole-config";
         patch = null;
         extraStructuredConfig = {
-          DRM_PANEL_CWU50 = pkgs.lib.kernel.module;
-          DRM_PANEL_CWD686 = pkgs.lib.kernel.module;
-          # SIMPLE_AMPLIFIER_SWITCH = pkgs.lib.kernel.module;
+          BACKLIGHT_CLASS_DEVICE = pkgs.lib.kernel.yes;
+          DRM_PANEL_CLOCKWORK_CWU50 = pkgs.lib.kernel.module;
+          SIMPLE_AMPLIFIER_SWITCH = pkgs.lib.kernel.module;
           BACKLIGHT_OCP8178 = pkgs.lib.kernel.module;
 
           REGMAP_I2C = pkgs.lib.kernel.yes;
@@ -74,4 +78,6 @@ in {
         };
       }
     ];
+
+  systemd.services."serial-getty@ttyS0".enable = false;
 }
