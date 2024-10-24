@@ -11,8 +11,7 @@ in {
     [nixos-hardware.nixosModules.raspberry-pi-4]
     ++ [./kernel]
     ++ [../raspberry-pi/overlays]
-    ++ [../raspberry-pi/apply-overlays]
-    ++ [./audio.nix];
+    ++ [../raspberry-pi/apply-overlays];
 
   config = {
     environment.systemPackages = [rpi-utils];
@@ -25,10 +24,10 @@ in {
         cpu-revision.enable = mkDefault true;
         audremap.enable = mkDefault true;
         vc4-kms-v3d.enable = mkDefault true;
-        disable-pcie.enable = mkDefault true;
-        disable-genet.enable = mkDefault true;
-        panel-uc.enable = mkDefault true;
-        cpi-pmu.enable = mkDefault true;
+        cpi-disable-pcie.enable = mkDefault true;
+        cpi-disable-genet.enable = mkDefault true;
+        cpi-uconsole.enable = mkDefault true;
+        # cpi-pmu.enable = mkDefault true;
         cpi-i2c1.enable = mkDefault false;
         cpi-spi4.enable = mkDefault false;
         cpi-bluetooth.enable = mkDefault true;
@@ -42,7 +41,7 @@ in {
         {
           name = "bcm2711-rpi-cm4";
           params = {
-            ant2 = mkDefault "off";
+            ant2 = mkDefault "on";
             audio = mkDefault "on";
             spi = mkDefault "off";
             i2c_arm = mkDefault "on";
