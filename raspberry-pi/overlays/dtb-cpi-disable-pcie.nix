@@ -4,13 +4,13 @@
   ...
 }: let
   inherit (lib) mkEnableOption mkIf mkMerge mkOption types;
-  cfg = config.hardware.raspberry-pi."4".overlays.disable-pcie;
+  cfg = config.hardware.raspberry-pi."4".overlays.cpi-disable-pcie;
 in {
-  options.hardware.raspberry-pi."4".overlays.disable-pcie = {
+  options.hardware.raspberry-pi."4".overlays.cpi-disable-pcie = {
     enable = mkEnableOption ''overlay enable'';
     name = mkOption {
       type = types.str;
-      default = "disable-pcie";
+      default = "cpi-disable-pcie";
     };
   };
 
@@ -21,7 +21,7 @@ in {
           {
             name = "${cfg.name}";
             filter = "bcm2711-rpi-cm4.dtb";
-            dtsFile = ./source/disable-pcie.dts;
+            dtsFile = ./source/cpi-disable-pcie.dts;
           }
         ];
       };

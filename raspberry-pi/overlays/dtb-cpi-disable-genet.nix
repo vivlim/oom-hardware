@@ -4,13 +4,13 @@
   ...
 }: let
   inherit (lib) mkEnableOption mkIf mkMerge mkOption types;
-  cfg = config.hardware.raspberry-pi."4".overlays.panel-uc;
+  cfg = config.hardware.raspberry-pi."4".overlays.cpi-disable-genet;
 in {
-  options.hardware.raspberry-pi."4".overlays.panel-uc = {
+  options.hardware.raspberry-pi."4".overlays.cpi-disable-genet = {
     enable = mkEnableOption ''overlay enable'';
     name = mkOption {
       type = types.str;
-      default = "panel-uc";
+      default = "cpi-disable-genet";
     };
   };
 
@@ -21,7 +21,7 @@ in {
           {
             name = "${cfg.name}";
             filter = "bcm2711-rpi-cm4.dtb";
-            dtsFile = ./source/panel-uc.dts;
+            dtsFile = ./source/cpi-disable-genet.dts;
           }
         ];
       };
