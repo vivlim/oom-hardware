@@ -22,6 +22,7 @@
 
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
+  boot.supportedFilesystems.zfs = lib.mkForce false;
 
   boot.consoleLogLevel = lib.mkDefault 7;
 
