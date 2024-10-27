@@ -20,6 +20,12 @@
     })
   ];
 
+  nix.settings = {
+    substituters = ["https://cache-nix.project2.xyz/uconsole"];
+    trusted-substituters = ["https://cache-nix.project2.xyz/uconsole"];
+    trusted-public-keys = ["uconsole:t2pv3NWEtXCYY0fgv9BB8r9tRdK+Tz7HYhGq9bXIIck="];
+  };
+
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
   boot.supportedFilesystems.zfs = lib.mkForce false;
@@ -61,7 +67,6 @@
       cpi-disable-pcie.enable = true;
       cpi-disable-genet.enable = true;
       cpi-uconsole.enable = true;
-      # cpi-pmu.enable =  true;
       cpi-i2c1.enable = false;
       cpi-spi4.enable = false;
       cpi-bluetooth.enable = true;
@@ -148,7 +153,9 @@
     populateRootCommands = ''
       mkdir -p ./files/boot
       mkdir -p ./files/boot/firmware
+      mkdir -p ./files/etc/nixos
       ${config.boot.loader.generic-extlinux-compatible.populateCmd} -c ${config.system.build.toplevel} -d ./files/boot
+      cp ${./configs}/* ./files/etc/nixos
     '';
   };
 }
