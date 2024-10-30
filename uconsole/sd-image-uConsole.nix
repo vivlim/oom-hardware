@@ -104,10 +104,12 @@
     ];
   };
 
-  environment.systemPackages = [
-    pkgs.wirelesstools
-    pkgs.iw
-    pkgs.gitMinimal
+  environment.systemPackages = with pkgs; [
+    wirelesstools
+    iw
+    gitMinimal
+    wpa_supplicant
+    eiwd
   ];
 
   nix.settings.experimental-features = ["nix-command" "flakes"];

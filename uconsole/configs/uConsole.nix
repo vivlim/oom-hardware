@@ -81,10 +81,4 @@
       }
     ];
   };
-
-  environment.systemPackages = [
-    pkgs.wirelesstools
-    pkgs.iw
-    pkgs.gitMinimal
-  ];
 }

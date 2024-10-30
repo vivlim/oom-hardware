@@ -7,12 +7,16 @@
     experimental-features = ["nix-command" "flakes"];
   };
   services.openssh.enable = true;
-  environment.systemPackages = [
-    pkgs.vim
-    pkgs.alejandra
-    pkgs.mc
-  ];
   boot.supportedFilesystems.zfs = false;
+
+  environment.systemPackages = with pkgs; [
+    wirelesstools
+    iw
+    gitMinimal
+    wpa_supplicant
+    eiwd
+  ];
+
   users.users.oom = {
     isNormalUser = true;
     extraGroups = ["wheel"];
