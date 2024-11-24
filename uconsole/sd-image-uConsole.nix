@@ -59,6 +59,8 @@ in {
   ];
 
   system.stateVersion = "25.05";
+  system.defaultChannel = "https://nixos.org/channels/nixos-unstable";
+
   hardware.raspberry-pi."4" = {
     xhci.enable = false;
     dwc2.enable = true;
