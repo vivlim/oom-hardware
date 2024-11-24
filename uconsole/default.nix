@@ -11,7 +11,8 @@ in {
     [nixos-hardware.nixosModules.raspberry-pi-4]
     ++ [./kernel]
     ++ [../raspberry-pi/overlays]
-    ++ [../raspberry-pi/apply-overlays];
+    ++ [../raspberry-pi/apply-overlays]
+    ++ [./module-4g.nix];
 
   config = {
     environment.systemPackages = [rpi-utils];
@@ -27,7 +28,6 @@ in {
         cpi-disable-pcie.enable = mkDefault true;
         cpi-disable-genet.enable = mkDefault true;
         cpi-uconsole.enable = mkDefault true;
-        # cpi-pmu.enable = mkDefault true;
         cpi-i2c1.enable = mkDefault false;
         cpi-spi4.enable = mkDefault false;
         cpi-bluetooth.enable = mkDefault true;

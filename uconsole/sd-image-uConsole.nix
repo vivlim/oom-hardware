@@ -3,10 +3,13 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  inherit (lib) mkOverride;
+in {
   imports = [
     <nixpkgs/nixos/modules/profiles/base.nix>
     <nixpkgs/nixos/modules/installer/sd-card/sd-image.nix>
+    <nixpkgs/nixos/modules/installer/cd-dvd/channel.nix>
     "${builtins.fetchGit {url = "https://github.com/NixOS/nixos-hardware.git";}}/raspberry-pi/4"
     ./kernel
     ../raspberry-pi/overlays
@@ -55,7 +58,7 @@
     "swiotlb=131072"
   ];
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
   hardware.raspberry-pi."4" = {
     xhci.enable = false;
     dwc2.enable = true;
@@ -108,13 +111,20 @@
     wirelesstools
     iw
     gitMinimal
-    wpa_supplicant
     eiwd
   ];
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
+  networking.wireless = {
+    userControlled.enable = true;
+    enable = true;
+  };
+  systemd.services.wpa_supplicant.wantedBy = mkOverride 50 [];
+  networking.networkmanager.enable = false;
+
   sdImage = {
+    imageBaseName = "nixos-sd-uconsole";
     compressImage = false;
     populateFirmwareCommands = let
       configTxt = pkgs.writeText "config.txt" ''

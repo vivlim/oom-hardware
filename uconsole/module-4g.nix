@@ -1,4 +1,10 @@
-{pkgs, ...}: let
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}: let
+  inherit (lib) mkEnableOption mkIf;
   rpi-utils = pkgs.callPackage ../raspberry-pi/packages/rpi-utils {};
   uconsole-4g-cm4 = pkgs.writeShellScriptBin "uconsole-4g-cm4" ''
     function tip {
@@ -42,10 +48,8 @@
     fi
   '';
 in {
-  config = {
-    environment.systemPackages = [
-      rpi-utils
-      uconsole-4g-cm4
-    ];
+  options.hardware.uconsole.module-4g.enable = mkEnableOption "Enable 4G module";
+  config = mkIf config.hardware.uconsole.module-4g.enable {
+    environment.systemPackages = [uconsole-4g-cm4];
   };
 }
