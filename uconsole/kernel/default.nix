@@ -5,8 +5,8 @@
     fetchFromGitHub,
   }: let
     # Version picked from the current (as of 8th Oct 2024) nixpkgs-unstable branch
-    modDirVersion = "6.6.31";
-    tag = "stable_20240529";
+    modDirVersion = "6.6.51";
+    tag = "stable_20241008";
   in
     linuxPackagesFor (linux_rpi4.override {
       argsOverride = {
@@ -17,7 +17,7 @@
           owner = "raspberrypi";
           repo = "linux";
           rev = tag;
-          hash = "sha256-UWUTeCpEN7dlFSQjog6S3HyEWCCnaqiUqV5KxCjYink=";
+          hash = "sha256-phCxkuO+jUGZkfzSrBq6yErQeO2Td+inIGHxctXbD5U=";
         };
       };
     });
@@ -27,7 +27,6 @@
     ./patches/003-axp20x-power.patch
     ./patches/004-vc4_dsi-update.patch
     ./patches/005-bcm2835-audio-staging.patch
-    ./patches/006-vc4_dsi-update-20241008.patch
     ./patches/007-drm-panel-cwu50-expose-dsi-error-status-to-userspace.patch
     ./patches/008-driver-staging-add-uconsole-simple-amplifier-switch.patch
   ];
