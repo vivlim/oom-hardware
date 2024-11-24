@@ -3,7 +3,6 @@ paramsPerOverlayMap: {
   stdenvNoCC,
   dtc,
   libraspberrypi,
-  pkgs,
 }:
 with lib; (base: overlays':
     stdenvNoCC.mkDerivation {

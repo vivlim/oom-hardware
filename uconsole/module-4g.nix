@@ -1,9 +1,4 @@
-{
-  pkgs,
-  lib,
-  ...
-}: let
-  inherit (lib) mkDefault;
+{pkgs, ...}: let
   rpi-utils = pkgs.callPackage ../raspberry-pi/packages/rpi-utils {};
   uconsole-4g-cm4 = pkgs.writeShellScriptBin "uconsole-4g-cm4" ''
     function tip {
@@ -51,7 +46,6 @@ in {
     environment.systemPackages = [
       rpi-utils
       uconsole-4g-cm4
-      # pkgs.modemmanager
     ];
   };
 }

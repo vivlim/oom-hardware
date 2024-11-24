@@ -1,9 +1,4 @@
-{
-  nixpkgs,
-  pkgs,
-  config,
-  ...
-}: let
+{pkgs, ...}: let
   kernelPackagesCfg = {
     linuxPackagesFor,
     linux_rpi4,

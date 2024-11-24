@@ -16,7 +16,7 @@
     hash = "sha256-qYpfy3PtPXzzunKsKSgsQXRUALQz6FSCsHQLe7djSt0=";
   };
 in
-  stdenv.mkDerivation rec {
+  stdenv.mkDerivation {
     inherit pname version src;
     nativeBuildInputs = [gcc cmake];
     buildInputs = [dtc];

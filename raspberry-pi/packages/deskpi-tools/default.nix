@@ -1,7 +1,5 @@
 {
-  lib,
   stdenv,
-  pkgs,
   fetchFromGitHub,
   gcc,
   device ? "/dev/deskPi",
@@ -17,7 +15,7 @@
     hash = "sha256-cetBXTqe8zZXpn5jjZ/g61j9y39exKWIvJH9IMgJj5c=";
   };
 in
-  stdenv.mkDerivation rec {
+  stdenv.mkDerivation {
     inherit pname version src;
 
     nativeBuildInputs = [gcc];
