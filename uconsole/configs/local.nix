@@ -1,4 +1,6 @@
-{pkgs, ...}: {
+{pkgs, lib, ...}: let
+  inherit (lib) mkOverride;
+in {
   nix.distributedBuilds = false;
   nix.settings = {
     substituters = ["https://cache-nix.project2.xyz/uconsole"];
@@ -13,9 +15,14 @@
     wirelesstools
     iw
     gitMinimal
-    wpa_supplicant
-    eiwd
   ];
+
+  networking.wireless = {
+    userControlled.enable = true;
+    enable = true;
+  };
+  systemd.services.wpa_supplicant.wantedBy = mkOverride 50 [];
+  networking.networkmanager.enable = false;
 
   users.users.oom = {
     isNormalUser = true;
