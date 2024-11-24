@@ -1,4 +1,8 @@
-{pkgs, lib, ...}: let
+{
+  pkgs,
+  lib,
+  ...
+}: let
   inherit (lib) mkOverride;
 in {
   nix.distributedBuilds = false;
