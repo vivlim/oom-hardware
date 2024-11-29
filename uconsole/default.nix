@@ -59,6 +59,7 @@ in {
           name = "vc4-kms-v3d";
           params = {
             cma-384 = mkDefault "on";
+            # cma-512 = mkDefault "on";
             nohdmi1 = mkDefault "on";
           };
         }
