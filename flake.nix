@@ -21,5 +21,9 @@
       sdImage = ./uconsole/sd-image-uConsole.nix;
       kernel = ./uconsole/kernel;
     };
+    raspberry-pi = {
+      overlays = ./raspberry-pi/overlays;
+      apply-overlays = ./raspberry-pi/apply-overlays;
+    };
   };
 }
