@@ -16,5 +16,9 @@
       uconsole = import ./uconsole {inherit pkgs nixos-hardware;};
       deskpi = import ./deskpi {inherit pkgs nixos-hardware;};
     };
+    uconsole = {
+      default = ./uconsole;
+      sdImage = ./uconsole/sd-image-uConsole.nix;
+    };
   };
 }
