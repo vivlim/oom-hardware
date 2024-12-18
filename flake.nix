@@ -19,6 +19,7 @@
     uconsole = {
       default = ./uconsole;
       sdImage = ./uconsole/sd-image-uConsole.nix;
+      kernel = ./uconsole/kernel;
     };
   };
 }
