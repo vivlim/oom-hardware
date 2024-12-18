@@ -24,6 +24,7 @@
     raspberry-pi = {
       overlays = ./raspberry-pi/overlays;
       apply-overlays = ./raspberry-pi/apply-overlays;
+      rpi-utils = ./raspberry-pi/packages/rpi-utils;
     };
   };
 }
